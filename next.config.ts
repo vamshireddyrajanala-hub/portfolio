@@ -1,10 +1,23 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
-  // Strict Mode's dev-only double-mount interacts badly with framer-motion's
-  // mount-triggered `animate` lifecycle (elements can get stuck at their
-  // initial/hidden state in `next dev`). Production builds are unaffected;
-  // this keeps the dev server visually consistent with production.
+  // Static export for GitHub Pages
+  output: "export",
+
+  // GitHub Pages serves from /portfolio (not root)
+  basePath: isProd ? "/portfolio" : "",
+  assetPrefix: isProd ? "/portfolio/" : "",
+
+  // GitHub Pages doesn't support trailing slashes by default
+  trailingSlash: true,
+
+  // Disable image optimization (not supported in static export)
+  images: {
+    unoptimized: true,
+  },
+
   reactStrictMode: false,
 };
 
