@@ -2,6 +2,7 @@ import { HeroScene } from "@/components/HeroScene";
 import { HeroLabels } from "@/components/HeroLabels";
 import { person } from "@/lib/content";
 import { MagneticButton } from "@/components/MagneticButton";
+import { assetPath } from "@/lib/assetPath";
 
 // Server component. The hero copy — including the <h1>, which is the page's
 // Largest Contentful Paint element — is in the initial HTML at full opacity,
@@ -45,7 +46,7 @@ export function HeroSection() {
             <MagneticButton href="#projects" variant="solid">
               Explore My Work
             </MagneticButton>
-            <MagneticButton href={person.resumeHref} variant="outline" download>
+            <MagneticButton href={assetPath(person.resumeHref)} variant="outline" download>
               Download Resume
             </MagneticButton>
           </div>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Evidence as EvidenceItem } from "@/lib/content";
+import { assetPath } from "@/lib/assetPath";
 
 /**
  * Renders the actual artifacts from a project — simulator screenshots,
@@ -15,7 +16,7 @@ export function Evidence({ items }: { items: EvidenceItem[] }) {
           {item.kind === "image" && (
             <div className="overflow-hidden rounded-sm border border-(--line) bg-black/40">
               <Image
-                src={item.src}
+                src={assetPath(item.src)}
                 alt={item.alt}
                 width={item.width}
                 height={item.height}

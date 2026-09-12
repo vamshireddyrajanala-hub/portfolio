@@ -1,6 +1,7 @@
 import { person } from "@/lib/content";
 import { MagneticButton } from "@/components/MagneticButton";
 import { Reveal } from "@/components/Reveal";
+import { assetPath } from "@/lib/assetPath";
 
 export function ContactSection() {
   return (
@@ -27,7 +28,7 @@ export function ContactSection() {
           <MagneticButton href={`mailto:${person.email}`} variant="outline">
             Send Email
           </MagneticButton>
-          <MagneticButton href={person.resumeHref} variant="outline" download>
+          <MagneticButton href={assetPath(person.resumeHref)} variant="outline" download>
             Download Resume
           </MagneticButton>
         </Reveal>
