@@ -1,26 +1,243 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #05070a;
+  --bg-elevated: #070a0e;
+  --bg-panel: #070a0e;
+  --bg-panel-alt: #0a0d12;
+
+  --ink: #e9eef4;
+  --ink-soft: #9aa6b4;
+  /* 5.17:1 on --bg. The previous #5c6774 measured 3.50:1 and failed WCAG AA
+     for normal-size text, which is exactly where this token is used. */
+  --ink-faint: #78828f;
+
+  --accent: #4fd1ff;
+  --accent-dim: #2f8fb0;
+  --accent-soft: rgba(79, 209, 255, 0.12);
+  --accent-glow: rgba(79, 209, 255, 0.35);
+
+  --metal: #838d99;
+
+  --line: rgba(255, 255, 255, 0.055);
+  --line-strong: rgba(255, 255, 255, 0.1);
+
+  --font-display: var(--font-chakra), "Segoe UI", sans-serif;
+  --font-body: var(--font-plex-sans), "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "SF Mono", ui-monospace, monospace;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-panel: var(--bg-panel);
+  --color-bg-panel-alt: var(--bg-panel-alt);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-metal: var(--metal);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* One shared atmosphere behind the entire page, so sections read as
+   one continuous space instead of separately-lit boxes. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 42rem at 78% 8%, rgba(79, 209, 255, 0.1), transparent 60%),
+    radial-gradient(50rem 40rem at 8% 55%, rgba(79, 209, 255, 0.05), transparent 65%),
+    radial-gradient(70rem 50rem at 85% 95%, rgba(79, 209, 255, 0.06), transparent 60%),
+    var(--bg);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--accent-glow);
+  color: #04121a;
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.font-mono-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* thin scrollbar for horizontal strips */
+.thin-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+}
+
+@keyframes trace-flow {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero entrance. Pure CSS so it needs no JavaScript and cannot get stuck
+   part-way: `animation-fill-mode: both` holds the start state before the
+   delay elapses and the end state after. */
+.hero-rise {
+  animation: fade-up 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-label {
+  transform: translate(-50%, -50%);
+  animation-name: label-in, label-float;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), ease-in-out;
+  animation-iteration-count: 1, infinite;
+  animation-fill-mode: both, none;
+}
+
+@keyframes label-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 8px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Floats via margin so it never fights the translate() that centres it. */
+@keyframes label-float {
+  0%,
+  100% {
+    margin-top: 0;
+  }
+  50% {
+    margin-top: -8px;
+  }
+}
+
+/* Data token advancing along a pipeline diagram. */
+.pipeline-token {
+  left: var(--from);
+  animation-name: pipeline-advance;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pipeline-advance {
+  0% {
+    left: var(--from);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: var(--to);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pipeline-token {
+    animation: none;
+    left: var(--from);
+  }
+}
+
+/* Scroll-triggered entrance. Deliberately fails open: the hidden state only
+   applies under `html.reveal-enabled`, a class added by an inline script, so
+   content stays visible when scripting is unavailable. Never make content
+   depend on JavaScript to become readable. */
+.reveal-enabled .reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 18px));
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-enabled .reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise,
+  .hero-label {
+    animation: none;
+    opacity: 1;
+  }
+  .reveal-enabled .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
