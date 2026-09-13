@@ -67,8 +67,30 @@ export function SkillMatrix() {
       </p>
 
       <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_0.75fr] lg:gap-16">
+        {/* On mobile, show the detail panel FIRST (above graph) for readability */}
+        {/* ---- readable detail (mobile: shown first) ---- */}
+        <div className="flex flex-col gap-5 border-b border-(--line) pb-6 lg:order-2 lg:border-b-0 lg:border-l lg:pb-0 lg:pl-12 lg:border-t-0 lg:pt-0">
+          <div className="flex items-baseline gap-3">
+            <span className="font-mono-label text-sm text-accent">{active.label}</span>
+            <span className="font-mono text-[10px] tabular-nums text-ink-faint">
+              {active.leaves.length} tools
+            </span>
+          </div>
+          <ul className="flex flex-col">
+            {active.leaves.map((leaf) => (
+              <li
+                key={leaf}
+                className="flex items-center gap-3 border-b border-(--line) py-2.5 text-sm text-ink-soft last:border-b-0"
+              >
+                <span className="h-1 w-1 shrink-0 rounded-full bg-accent" />
+                {leaf}
+              </li>
+            ))}
+          </ul>
+        </div>
+
         {/* ---- graph ---- */}
-        <div className="relative mx-auto w-full max-w-[560px]" style={{ aspectRatio: "1 / 1" }}>
+        <div className="relative mx-auto w-full max-w-[320px] sm:max-w-[420px] lg:order-1 lg:max-w-[560px]" style={{ aspectRatio: "1 / 1" }}>
           <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 h-full w-full">
             {hubs.map((hub) => (
               <line
@@ -147,27 +169,6 @@ export function SkillMatrix() {
               </button>
             );
           })}
-        </div>
-
-        {/* ---- readable detail ---- */}
-        <div className="flex flex-col gap-5 border-t border-(--line) pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12">
-          <div className="flex items-baseline gap-3">
-            <span className="font-mono-label text-sm text-accent">{active.label}</span>
-            <span className="font-mono text-[10px] tabular-nums text-ink-faint">
-              {active.leaves.length} tools
-            </span>
-          </div>
-          <ul className="flex flex-col">
-            {active.leaves.map((leaf) => (
-              <li
-                key={leaf}
-                className="flex items-center gap-3 border-b border-(--line) py-2.5 text-sm text-ink-soft last:border-b-0"
-              >
-                <span className="h-1 w-1 shrink-0 rounded-full bg-accent" />
-                {leaf}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </section>

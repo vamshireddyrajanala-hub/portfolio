@@ -29,8 +29,16 @@ export function CertificationWall() {
     <section className="relative mx-auto w-full max-w-7xl px-6 py-28 md:px-10">
       <SectionHeading eyebrow="§08 / Certifications" title="Certification Wall" />
 
+      {/* Flat grid for mobile — always readable */}
+      <div className="mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2 md:hidden">
+        {certifications.map((cert) => (
+          <CertCard key={cert.name} cert={cert} />
+        ))}
+      </div>
+
+      {/* 3D carousel for md+ */}
       <div
-        className="relative mx-auto mt-16 h-[280px] w-full max-w-4xl"
+        className="relative mx-auto mt-16 hidden h-[280px] w-full max-w-4xl md:block"
         style={{ perspective: "1400px" }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}

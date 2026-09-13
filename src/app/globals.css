@@ -241,3 +241,37 @@ button:focus-visible,
     transition: none;
   }
 }
+
+/* ─── Mobile Optimizations ─── */
+
+/* Prevent any horizontal overflow on mobile */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Reduce section vertical padding on small screens */
+@media (max-width: 639px) {
+  section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  /* Ensure touch targets meet minimum 44px */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce hero font for very small screens */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.1 !important;
+  }
+}
+
+/* Improve tap highlight on mobile */
+@media (pointer: coarse) {
+  button:active, a:active {
+    opacity: 0.85;
+  }
+}
