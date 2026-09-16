@@ -338,6 +338,7 @@ export const projects: Project[] = [
  */
 export type Evidence =
   | { kind: "image"; src: string; alt: string; caption: string; width: number; height: number }
+  | { kind: "video"; src: string; alt: string; caption: string; poster?: string }
   | { kind: "terminal"; command: string; lines: string[]; caption: string }
   | { kind: "code"; file: string; code: string; caption: string };
 
@@ -470,6 +471,22 @@ assign if_id_write = ~load_use_hazard;`,
   ],
 
   "fire-robot": [
+    {
+      kind: "video",
+      src: "/projects/robot-demo.mp4",
+      alt: "Fire Fighting Robot demo — autonomous fire detection and water pump activation",
+      caption:
+        "Live demo: the robot detects a flame source, triggers the relay-driven water pump automatically, and suppresses the fire — the full detection-to-suppression loop running autonomously.",
+    },
+    {
+      kind: "image",
+      src: "/projects/robot-build.jpg",
+      alt: "The assembled fire fighting robot with camouflage body, water tank, pump, ESP32-CAM, and flame sensor visible",
+      width: 368,
+      height: 656,
+      caption:
+        "The finished build — four-wheel drive chassis with camouflage housing, water tank and pump mounted on top, ESP32-CAM for live video streaming (center), and the flame sensor LED glowing red at the front.",
+    },
     {
       kind: "image",
       src: "/projects/robot-block.png",

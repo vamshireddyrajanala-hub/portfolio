@@ -26,6 +26,22 @@ export function Evidence({ items }: { items: EvidenceItem[] }) {
             </div>
           )}
 
+          {item.kind === "video" && (
+            <div className="overflow-hidden rounded-sm border border-(--line) bg-black/40">
+              <video
+                src={assetPath(item.src)}
+                controls
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="h-auto w-full"
+              >
+                {item.alt}
+              </video>
+            </div>
+          )}
+
           {item.kind === "terminal" && (
             <div className="overflow-hidden rounded-sm border border-(--line) bg-black/50">
               <div className="flex items-center gap-2 border-b border-(--line) px-3 py-2">
