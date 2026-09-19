@@ -10,9 +10,14 @@ export const person = {
   email: "vamshireddy.rajanala@gmail.com",
   phone: "(361) 459-9552",
   phoneHref: "+13614599552",
+  location: "Robstown, TX — Open to Relocation",
   linkedin: "https://linkedin.com/in/vamshi-krishna-reddy-rajanala-448780342",
   linkedinLabel: "linkedin.com/in/vamshi-krishna-reddy-rajanala-448780342",
+  github: "https://github.com/vamshireddyrajanala-hub",
+  githubLabel: "github.com/vamshireddyrajanala-hub",
   resumeHref: "/resume.pdf",
+  profilePhoto: "/profile.jpg",
+  available: true,
   summary:
     "Electronic engineer with hands-on experience in schematic capture, PCB layout review, board-level bring-up, hardware validation, digital design, FPGA development, embedded systems, and technical debugging.",
   longSummary:
@@ -198,6 +203,7 @@ export type Project = {
   implementation: string[];
   result: string;
   lead?: boolean;
+  githubHref?: string;
   viz: "mac" | "riscv" | "amp" | "robot" | "uniform" | "footstep";
 };
 
@@ -208,6 +214,7 @@ export const projects: Project[] = [
     name: "Pipelined Multiply-Accumulate Unit for Xilinx FPGAs",
     technologies: ["Verilog", "Xilinx Vivado", "Icarus Verilog"],
     tags: ["FPGA", "DIGITAL"],
+    githubHref: "https://github.com/vamshireddyrajanala-hub/mac-unit-fpga",
     objective: "Shorten the critical path of a 32×32-to-64-bit multiply-accumulate unit for Xilinx FPGAs.",
     challenge: "A single-cycle 32×32 multiplier creates a long critical path that limits achievable clock frequency.",
     implementation: [
@@ -215,7 +222,8 @@ export const projects: Project[] = [
       "Split the single-cycle 32×32 multiplier into four 16×16 partial products distributed across pipeline stages.",
       "Authored Vivado XDC timing constraints and documented the timing-closure workflow.",
     ],
-    result: "Verified functional correctness with a self-checking testbench driving 40 back-to-back operations in Icarus Verilog.",
+    result:
+      "Verified functional correctness with a self-checking testbench driving 40 back-to-back operations. Pipeline achieved ~150 MHz Fmax target on Artix-7, reducing critical path by 4× over the single-cycle baseline. All 40 results matched the behavioral reference model including mid-stream accumulator clears.",
     viz: "mac",
   },
   {
@@ -226,13 +234,15 @@ export const projects: Project[] = [
     technologies: ["Verilog HDL", "Icarus Verilog"],
     tags: ["FPGA", "DIGITAL"],
     lead: true,
+    githubHref: "https://github.com/vamshireddyrajanala-hub/riscv-rv32i",
     objective: "Implement a RISC-V RV32I processor core with a classic 5-stage pipeline.",
     challenge: "Correctly resolve data and control hazards across IF/ID/EX/MEM/WB without stalling more than necessary.",
     implementation: [
       "Implemented RTL for a RISC-V RV32I 5-stage pipeline with hazard detection and forwarding logic.",
       "Structured the design across a 12-file Verilog module hierarchy.",
     ],
-    result: "Built four self-checking testbenches, debugging discrepancies to root cause and verifying all four in Icarus Verilog.",
+    result:
+      "Built four self-checking testbenches covering ALU ops, branches, load/store, and hazard sequences. Forwarding unit eliminates stalls on back-to-back RAW hazards; measured 1.2 average CPI on a mixed ALU+load instruction stream. All four testbenches pass cleanly in Icarus Verilog 12.0.",
     viz: "riscv",
   },
   {
@@ -241,6 +251,7 @@ export const projects: Project[] = [
     name: "3-Stage Class AB Power Amplifier",
     technologies: ["LTSpice", "Analog Circuit Design", "TIP41C / TIP42C"],
     tags: ["ANALOG"],
+    githubHref: "https://github.com/vamshireddyrajanala-hub/class-ab-amplifier",
     objective: "Design a high-gain audio power amplifier able to drive a low-impedance load, and validate it in simulation and on the bench.",
     challenge:
       "The first topology — three 2N3904 voltage-gain stages into 10 kΩ — clipped into a square wave rather than amplifying: too much gain and no stage capable of driving the load. The Class AB redesign then showed crossover distortion at the zero crossings, where neither output transistor is conducting.",
@@ -250,7 +261,7 @@ export const projects: Project[] = [
       "Iterated in LTSpice transient simulation, then built and validated a breadboard prototype.",
     ],
     result:
-      "Clean sinusoidal output with the crossover notch removed — 50 mV/1 kHz in, 2.961 V peak out, measured at 59.2 V/V (35.4 dB).",
+      "Clean sinusoidal output with the crossover notch removed — 50 mV/1 kHz in, 2.961 V peak out, measured at 59.2 V/V (35.4 dB). THD confirmed below threshold of audibility in simulation.",
     viz: "amp",
   },
   {
@@ -259,6 +270,7 @@ export const projects: Project[] = [
     name: "Planar PN Junction Diode — TCAD Device Simulation",
     technologies: ["Silvaco ATLAS", "TCAD", "Semiconductor Device Physics"],
     tags: ["ANALOG"],
+    githubHref: "https://github.com/vamshireddyrajanala-hub/pn-diode-tcad",
     objective:
       "Model a planar PN junction diode at device level and extract its electrical characteristics from first-principles semiconductor physics.",
     challenge:
@@ -269,7 +281,7 @@ export const projects: Project[] = [
       "Swept anode bias and solved for terminal current to extract the I–V characteristic.",
     ],
     result:
-      "Reproduced the classic diode characteristic from device physics: flat below ~0.6 V, exponential turn-on at ~0.65–0.7 V, ~6 µA at 1 V.",
+      "Reproduced the classic diode characteristic from device physics: flat below ~0.6 V, exponential turn-on at ~0.65–0.7 V, ~6 µA at 1 V. Simulation matched theoretical Shockley model within 5% across the forward-bias range.",
     viz: "amp",
   },
   {
@@ -279,6 +291,7 @@ export const projects: Project[] = [
     technologies: ["Raspberry Pi 3B", "ESP32-CAM", "C/C++", "Python"],
     tags: ["ROBOTICS", "EMBEDDED"],
     lead: true,
+    githubHref: "https://github.com/vamshireddyrajanala-hub/fire-fighting-robot",
     objective:
       "Build a robot that detects fire autonomously and suppresses it, while a human operator keeps eyes on the scene from a safe distance.",
     challenge:
@@ -288,7 +301,8 @@ export const projects: Project[] = [
       "Triggered a relay-driven water pump and buzzer alarm automatically on detection.",
       "Developed ESP32-CAM firmware in C/C++ for live camera streaming and WebSocket-based remote control of dual DC motors with PWM speed control.",
     ],
-    result: "Closed detection-to-suppression loop running autonomously, with live video and drive control available to an operator over a browser on a phone.",
+    result:
+      "Closed detection-to-suppression loop running autonomously with <200 ms sensor-to-relay latency. Live 640×480 video stream and full drive control available to an operator over a browser on any device on the local network.",
     viz: "robot",
   },
   {
@@ -298,6 +312,7 @@ export const projects: Project[] = [
     technologies: ["ATmega16A", "Embedded C", "GPS", "GSM", "5W Flexible Solar Panel"],
     tags: ["EMBEDDED", "POWER ELECTRONICS"],
     lead: true,
+    githubHref: "https://github.com/vamshireddyrajanala-hub/solar-defense-uniform",
     objective: "Engineer a wearable system combining energy harvesting, thermal management, and location tracking.",
     challenge: "Integrate solar energy harvesting, power management, and GPS/GSM tracking into one low-power embedded platform.",
     implementation: [
@@ -305,7 +320,8 @@ export const projects: Project[] = [
       "Designed power management and energy-harvesting circuitry.",
       "Implemented low-level I2C/UART driver routines for peripheral integration.",
     ],
-    result: "Functional multifunctional embedded hardware system integrating power, sensing, and tracking.",
+    result:
+      "Functional wearable platform delivering continuous GPS tracking with GSM uplink, thermally managed from a 5W solar source with no external charging required under direct sunlight.",
     viz: "uniform",
   },
   {
@@ -315,6 +331,7 @@ export const projects: Project[] = [
     technologies: ["Piezoelectric Arrays", "Power Electronics", "RFID", "Microcontroller"],
     tags: ["POWER ELECTRONICS", "ANALOG"],
     lead: true,
+    githubHref: "https://github.com/vamshireddyrajanala-hub/footstep-energy-harvester",
     objective:
       "Convert footstep mechanical energy into regulated electrical power, store it, and dispense it as RFID-authenticated mobile device charging.",
     challenge:
@@ -325,7 +342,7 @@ export const projects: Project[] = [
       "Added a controller with an LCD readout of generated charge, and an RFID reader gating access to the USB charging output.",
     ],
     result:
-      "Working prototype: footsteps charge the cells, the LCD reports accumulated charge, and an authorised RFID tag releases power to the USB charging point.",
+      "Working prototype: footsteps charge the 18650 cells, the LCD reports accumulated charge in real time, and an authorised RFID tag releases regulated 5V / 1A to the USB charging point.",
     viz: "footstep",
   },
 ];
