@@ -31,9 +31,10 @@ const jetbrains = JetBrains_Mono({
 const title = `${person.name} | Electronic Engineer | FPGA | Hardware | Embedded Systems`;
 const description =
   "Portfolio of Vamshi Krishna Reddy Rajanala, an electronic engineer specializing in hardware design, PCB bring-up, FPGA/RTL development, embedded systems, and digital verification.";
+const siteUrl = "https://vamshireddyrajanala-hub.github.io/portfolio";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vamshi-rajanala-portfolio.example"),
+  metadataBase: new URL(siteUrl),
   title,
   description,
   authors: [{ name: person.name }],
@@ -45,18 +46,40 @@ export const metadata: Metadata = {
     "PCB Layout",
     "Embedded Systems",
     "Verilog HDL",
+    "SystemVerilog",
     "Digital Verification",
     "RISC-V",
+    "RTL Design",
+    "Texas A&M Kingsville",
+    "DRDO",
   ],
+  icons: {
+    icon: [
+      { url: "/portfolio/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/portfolio/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/portfolio/apple-touch-icon.png", sizes: "512x512" }],
+  },
   openGraph: {
     title,
     description,
     type: "profile",
+    url: siteUrl,
+    siteName: "Vamshi Rajanala — Portfolio",
+    images: [
+      {
+        url: "/portfolio/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Vamshi Krishna Reddy Rajanala — Electronic Engineer Portfolio",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title,
     description,
+    images: ["/portfolio/og-image.jpg"],
   },
 };
 
@@ -67,8 +90,16 @@ const personJsonLd = {
   jobTitle: person.title,
   email: `mailto:${person.email}`,
   telephone: person.phone,
-  sameAs: [person.linkedin],
+  url: siteUrl,
+  image: `${siteUrl}/profile.jpg`,
+  sameAs: [person.linkedin, person.github],
   description: person.longSummary,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Robstown",
+    addressRegion: "TX",
+    addressCountry: "US",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
